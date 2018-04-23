@@ -35,6 +35,32 @@ app.get("/blogs", (req, res) => {
   });
 });
 
+app.get("/blogs/new", function(req, res) {
+  res.render("new");
+});
+
+app.post("/blogs", (req, res) => {
+  // create blog post, then redirect to index
+  Blog.create(req.body.blog, (err, newBlog) => {
+    if(err) {
+      res.render("new");
+    } else {
+      res.redirect("/blogs");
+    }
+  });
+});
+
+app.get("/blogs/:id", (req, res) => {
+   Blog.findById(req.params.id, (err, foundBlog) => {
+     if(err) {
+       res.redirect("/blogs");
+     } else {
+       res.render("show", {blog: foundBlog});
+     }
+   });
+});
+
+// STARTING UP THE SERVER
 
 app.listen(3000, process.env.IP, function() {
   console.log("Server is running...");

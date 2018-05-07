@@ -60,6 +60,20 @@ app.get("/blogs/:id", (req, res) => {
    });
 });
 
+app.get("/blogs/:id/edit", (req, res) => {
+  Blog.findById(req.params.id, (err, foundBlog) => {
+    if (err){
+      res.redirect("/blogs");
+    } else {
+      res.render("edit", {blog: foundBlog});
+    }
+  });
+});
+
+app.put("/blogs/:id", (req, res) => {
+  res.send("UPDATE ROUTE!");
+});
+
 // STARTING UP THE SERVER
 
 app.listen(3000, process.env.IP, function() {
